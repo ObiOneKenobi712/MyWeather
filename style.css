@@ -1,0 +1,41 @@
+.my-tab-content {
+    display: none !important;
+}
+
+.my-tab-content.active {
+    display: block !important;
+}
+
+.weather-tab-content {
+    display: none;
+}
+
+.weather-tab-content.active {
+    display: block;
+}
+
+.forecast-day {
+    min-width: 90px;
+    text-align: center;
+    padding: 8px;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    font-size: 0.85rem;
+}
+
+body {
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+}
+
+.card {
+    background-color: rgba(255, 255, 255, 0.88) !important;
+    backdrop-filter: blur(4px);
+}
+
+header.bg-primary {
+    opacity: 0.95;
+}

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check Your Weather</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2bb6bf">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+    <header class="bg-primary text-white text-center py-4 mb-3">
+        <h1 class="mb-0">Check Your Weather</h1>
+    </header>
+
+    <nav class="tabs d-flex justify-content-center gap-2 mb-4">
+        <button class="tab-btn btn btn-primary active" data-tab="rejestracja">Rejestracja</button>
+        <button class="tab-btn btn btn-outline-primary" data-tab="pogoda">Pogoda</button>
+    </nav>
+
+    <main>
+        <section id="rejestracja" class="my-tab-content active">
+            <div class="container" style="max-width: 500px;">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h2 class="card-title mb-4">Formularz rejestracji</h2>
+                        <form action="">
+                            <div class="form_box mb-3">
+                                <label for="name" class="form-label">*Login:</label>
+                                <input type="text" id="name" name="name" class="form-control" placeholder="Login" required>
+                                <p class="err_mess text-danger small"></p>
+                            </div>
+                            <div class="form_box mb-3">
+                                <label for="email" class="form-label">*Email:</label>
+                                <input type="email" id="email" name="email" class="form-control" placeholder="Adres e-mail" required>
+                                <p class="err_mess text-danger small"></p>
+                            </div>
+                            <div class="form_box mb-3">
+                                <label for="password1" class="form-label">*Hasło:</label>
+                                <input type="password" id="password1" name="password1" class="form-control" placeholder="Min. 8 znaków" required>
+                                <p class="err_mess text-danger small"></p>
+                            </div>
+                            <div class="form_box mb-3">
+                                <label for="password2" class="form-label">*Powtórz hasło:</label>
+                                <input type="password" id="password2" name="password2" class="form-control" placeholder="Powtórz hasło" required>
+                                <p class="err_mess text-danger small"></p>
+                            </div>
+                            <div class="form_box mb-3 form-check">
+                                <input type="checkbox" name="terms" id="terms" class="form-check-input">
+                                <label for="terms" class="form-check-label">*Zaakceptuj regulamin</label>
+                                <p class="err_mess text-danger small"></p>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <input type="submit" value="Prześlij" id="submit" class="btn btn-primary">
+                                <input type="reset" value="Wyczyść" id="reset" class="btn btn-outline-secondary">
+                            </div>
+                        </form>
+                        <p id="form-success" class="mt-3 text-success fw-bold" style="display:none"></p>
+                        <p id="form-error" class="mt-3 text-danger small" style="display:none"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="pogoda" class="my-tab-content">
+            <div class="container" style="max-width: 700px;">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h2 class="card-title">My Weather App</h2>
+                        <p class="city-name fs-5 fw-bold text-primary"></p>
+
+                        <div class="input-group mb-2">
+                            <input type="text" class="form-control" placeholder="Podaj nazwę miasta">
+                            <button class="btn btn-primary" type="button">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </button>
+                        </div>
+                        <p class="error-message text-danger small"></p>
+
+                        <nav class="weather-tabs d-flex gap-2 my-3">
+                            <button class="weather-tab-btn btn btn-primary active" data-weather-tab="today">Dzisiaj</button>
+                            <button class="weather-tab-btn btn btn-outline-primary" data-weather-tab="forecast">Prognoza 7 dni</button>
+                        </nav>
+
+                        <div id="today" class="weather-tab-content active">
+                            <div class="text-center mb-3">
+                                <p class="date text-muted"></p>
+                                <p class="is-day"></p>
+                                <div class="weather-animation" id="weather-animation"></div>
+                                <p class="temp display-4 fw-bold"></p>
+                                <p class="description"></p>
+                                <p class="feels-like text-muted"></p>
+                                <p class="temp-minmax"></p>
+                            </div>
+                            <div class="row row-cols-2 row-cols-md-3 g-2">
+                                <div class="col"><div class="card text-center p-2"><i class="fa-solid fa-wind text-primary"></i><br><small>Prędkość wiatru</small><br><strong class="wind-speed"></strong></div></div>
+                                <div class="col"><div class="card text-center p-2"><i class="fa-solid fa-compass text-primary"></i><br><small>Kierunek wiatru</small><br><strong class="wind-direction"></strong></div></div>
+                                <div class="col"><div class="card text-center p-2"><i class="fa-solid fa-gauge-high text-primary"></i><br><small>Porywy wiatru</small><br><strong class="wind-gusts"></strong></div></div>
+                                <div class="col"><div class="card text-center p-2"><i class="fa-solid fa-arrow-down text-primary"></i><br><small>Ciśnienie</small><br><strong class="pressure"></strong></div></div>
+                                <div class="col"><div class="card text-center p-2"><i class="fa-solid fa-droplet text-primary"></i><br><small>Wilgotność</small><br><strong class="humidity"></strong></div></div>
+                                <div class="col"><div class="card text-center p-2"><i class="fa-solid fa-cloud text-primary"></i><br><small>Zachmurzenie</small><br><strong class="clouds"></strong></div></div>
+                                <div class="col"><div class="card text-center p-2"><i class="fa-solid fa-cloud-rain text-primary"></i><br><small>Opady</small><br><strong class="rain"></strong></div></div>
+                                <div class="col"><div class="card text-center p-2"><i class="fa-solid fa-sun text-warning"></i><br><small>UV Index (max)</small><br><strong class="uv-index"></strong></div></div>
+                                <div class="col"><div class="card text-center p-2"><i class="fa-solid fa-arrow-up text-warning"></i><br><small>Wschód słońca</small><br><strong class="sunrise"></strong></div></div>
+                                <div class="col"><div class="card text-center p-2"><i class="fa-solid fa-arrow-down text-danger"></i><br><small>Zachód słońca</small><br><strong class="sunset"></strong></div></div>
+                                <div class="col"><div class="card text-center p-2"><i class="fa-solid fa-solar-panel text-warning"></i><br><small>Nasłonecznienie</small><br><strong class="sunshine"></strong></div></div>
+                                <div class="col"><div class="card text-center p-2"><i class="fa-solid fa-clock text-secondary"></i><br><small>Długość dnia</small><br><strong class="daylight"></strong></div></div>
+                            </div>
+                        </div>
+
+                        <div id="forecast" class="weather-tab-content">
+                            <div class="row" id="forecast-days"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="text-center text-muted py-4 mt-4 border-top">
+        <p class="mb-0">Projekt zaliczeniowy UWSB Merito Gdynia lato 2026</p>
+        <p class="mb-0">Autor: Agata</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+    <script src="./sw.js"></script>
+    <script>
+
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(b => {
+                    b.classList.remove('active', 'btn-primary');
+                    b.classList.add('btn-outline-primary');
+                });
+                document.querySelectorAll('.my-tab-content').forEach(s => s.classList.remove('active'));
+                btn.classList.add('active', 'btn-primary');
+                btn.classList.remove('btn-outline-primary');
+                document.getElementById(btn.dataset.tab).classList.add('active');
+            });
+        });
+
+        document.addEventListener('click', (e) => {
+            const btn = e.target.closest('.weather-tab-btn');
+            if (!btn) return;
+            document.querySelectorAll('.weather-tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.weather-tab-content').forEach(s => s.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById(btn.dataset.weatherTab).classList.add('active');
+        });
+    </script>
+</body>
+</html>
