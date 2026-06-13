@@ -29,7 +29,7 @@ function checkEmail() {
     /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
     if (!(re.test(email.value))) {
-        showOrHideErrorMessage(email, 'Adres email jest niepoprawny');
+        showOrHideErrorMessage(email, 'Adres email jest niepoprawny.');
     } else {
         showOrHideErrorMessage(email, '');
     }
@@ -37,7 +37,7 @@ function checkEmail() {
 
 function checkPasswordsValue() {
     if (pass1.value !== pass2.value) {
-    showOrHideErrorMessage(pass2, 'Hasła są różne');
+        showOrHideErrorMessage(pass2, 'Hasła są różne.');
     } else {
     showOrHideErrorMessage(pass2, '');
     }
